@@ -143,6 +143,8 @@ var getItems = function (opts, callback) {
               assignee: pr.assignee ? pr.assignee.login : null,
               number: pr.number,
               title: pr.title,
+              description: pr.body,
+              updatedAt: pr.updated_at,
               url: opts.includeUrl ? url : null
             };
           })
@@ -151,6 +153,9 @@ var getItems = function (opts, callback) {
             return !opts.users ||
               _.contains(opts.users, pr.assignee) ||
               _.contains(opts.users, pr.user);
+          })
+          .filter(function (pr) {
+            return pr.updatedAt >= opts.updatedSince;
           })
           .value();
 
@@ -266,10 +271,11 @@ var pullReport = function (opts, callback) {
       org: org,
       pullRequests: opts.issueType.indexOf("pull-request") > NOT_FOUND,
       issues: opts.issueType.indexOf("issue") > NOT_FOUND,
+      updatedSince: opts.updatedSince,
       users: opts.user,
       state: opts.state,
       host: opts.host,
-      includeURL: opts.prUrl || opts.html
+      includeUrl: opts.prUrl || opts.html
     }, cb);
   }, callback);
 };
@@ -310,6 +316,8 @@ if (require.main === module) {
     .option("--repo-type <type>", "Repo type (default: all|member|private)", "all")
     .option("--issue-type [types]",
       "Comma-separated list of issue types (default: pull-request|issue)", list)
+    .option("--updated-since <date>",
+      "Display issues updated since this ISO formatted date, e.g. 2018-08-16, 2018-08-16T04:34:27Z")
     .parse(process.argv);
 
   // Add defaults from configuration, in order of precendence.
