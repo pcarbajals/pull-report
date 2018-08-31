@@ -144,7 +144,7 @@ var getItems = function (opts, callback) {
               number: pr.number,
               title: pr.title,
               description: pr.body,
-              updatedAt: pr.updated_at,
+              updatedAt: opts.updated_at ? pr.updated_at : null,
               url: opts.includeUrl ? url : null
             };
           })
@@ -155,7 +155,11 @@ var getItems = function (opts, callback) {
               _.contains(opts.users, pr.user);
           })
           .filter(function (pr) {
-            return pr.updatedAt >= opts.updatedSince;
+            if (pr.updatedAt) {
+              return pr.updatedAt >= opts.updatedSince;
+            } else {
+              return true;
+            }
           })
           .value();
 
