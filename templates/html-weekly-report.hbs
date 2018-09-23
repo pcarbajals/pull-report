@@ -1,0 +1,39 @@
+{{#each this~}}
+  <h2>
+    <a class="org" href="{{orgUrl}}">{{org}}</a>
+  </h2>
+  {{~#each repos}}
+    <h3>
+      <a class="repo" href="{{url}}">{{name}}</a>
+      (<em><a href="{{url}}/pulls">{{items.length}}</a></em>)
+    </h3>
+    <ul>
+    <li>Merged
+      {{~#each items}}
+        {{#if merged}}
+          <ul>
+            <li><a class="title" href="{{url}}">&quot;{{title}}&quot; #{{number}}</a>{{#if description}}
+              <ul>
+                <li><pre>{{description}}</pre></li>
+              </ul>{{/if}}
+            </li>
+          </ul>
+        {{/if}}
+      {{~/each}}
+      </li>
+      <li>Not Merged
+        {{~#each items}}
+          {{#unless merged}}
+            <ul>
+              <li><a class="title" href="{{url}}">&quot;{{title}}&quot; #{{number}}</a>{{#if description}}
+                <ul>
+                  <li><pre>{{description}}</pre></li>
+                </ul>{{/if}}
+              </li>
+            </ul>
+          {{/unless}}
+        {{~/each}}
+      </li>
+    </ul>
+  {{/each}}
+{{/each~}}

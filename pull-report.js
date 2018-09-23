@@ -138,14 +138,15 @@ var getItems = function (opts, callback) {
             }
 
             return {
-              userUrl: "https://" + (opts.host || "github.com"),
-              user: pr.user ? pr.user.login : null,
-              assignee: pr.assignee ? pr.assignee.login : null,
-              number: pr.number,
-              title: pr.title,
+              userUrl:     "https://" + (opts.host || "github.com"),
+              user:        pr.user ? pr.user.login : null,
+              assignee:    pr.assignee ? pr.assignee.login : null,
+              number:      pr.number,
+              title:       pr.title,
               description: pr.body,
-              updatedAt: pr.updated_at,
-              url: opts.includeUrl ? url : null
+              updatedAt:   pr.updated_at,
+              merged:      pr.merged_at ? true : false,
+              url:         opts.includeUrl ? url : null
             };
           })
           .filter(function (pr) {
