@@ -159,9 +159,13 @@ var getItems = function (opts, callback) {
             // filter by updatedSince if specified
             if (typeof opts.updatedSince !== 'undefined' && opts.updatedSince) {
               return pr.updatedAt >= opts.updatedSince;
+
             } else {
               return true;
             }
+          })
+          .sortBy(function (pr) {
+            return pr.updatedAt;
           })
           .value();
 
